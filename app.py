@@ -42,6 +42,11 @@ if selected_category == 'All':
 else:
     news = fetch_news(selected_country, category=selected_category)
 
+# Search bar
+search_query = st.text_input("Search for news:")
+# Fetch the news with search query
+news = fetch_news(selected_country, category=selected_category, q=search_query)
+
 # Display the news articles
 for article in news['articles']:
     st.write('###', article['title'])
