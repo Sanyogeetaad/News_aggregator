@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather and Photo Upload</title>
+</head>
+<body>
+    <h1>Upload Photo and Weather Data</h1>
+    
+    <form method="post" action="{{ url_for('index') }}">
+        <!-- Form inputs go here -->
+        <input type="text" name="city_name" placeholder="Enter city name">
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
