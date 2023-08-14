@@ -1,14 +1,14 @@
-
 import streamlit as st
 import requests
 
 NEWS_API_ENDPOINT = 'https://newsapi.org/v2/top-headlines'
-NEWS_API_KEY = st.secrets["NEWS_API_KEY"]   
+NEWS_API_KEY = '10bf4a47cf6e48069821a23ff15fce50'  
 
-def fetch_news(country, category=None):
+def fetch_news(country, category=None, q=None):
     params = {
         'country': country,
-        'apiKey': NEWS_API_KEY  
+        'apiKey': NEWS_API_KEY,
+        'q': q
     }
     if category:
         params['category'] = category
@@ -42,15 +42,33 @@ if selected_category == 'All':
 else:
     news = fetch_news(selected_country, category=selected_category)
 
+
 # Search bar
 search_query = st.text_input("Search for news:")
 # Fetch the news with search query
-news = fetch_news(selected_country, category=selected_category, q=search_query)
+if search_query:
+    search_news = fetch_news(selected_country, q=search_query)
+else:
+    search_news = {'articles': []} 
 
-# Display the news articles
+# Display the news articles based on the selected category
 for article in news['articles']:
     st.write('###', article['title'])
     if article['urlToImage']:
         st.image(article['urlToImage'], use_column_width=True)
+    st.write(article['url'])
+
+# Display the news articles based on the search query
+if search_query:
+    st.write('## Search Results')
+    for article in search_news['articles']:
+        st.write('###', article['title'])
+        if article['urlToImage']:
+            st.image(article['urlToImage'], use_column_width=True)
+        st.write(article['url'])
+        
+# Display the news articles
+for article in news['articles']:
+    st.write('###', article['title'])
     st.write(article['url'])
   
