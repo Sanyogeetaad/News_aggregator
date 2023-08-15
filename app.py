@@ -52,10 +52,10 @@ st.markdown(
 )
 
 # Toggle sidebar button
-sidebar_expander = st.sidebar.beta_expander("Toggle Sidebar")
+sidebar_expander = st.sidebar.expander("Toggle Sidebar", expanded=False)
 with sidebar_expander:
     st.sidebar.button("Toggle Sidebar")
-
+    
 # Choose the country
 countries = ['IN','US', 'GB', 'CA', 'AU', 'FR', 'DE', 'JP', 'CN', 'RU', 'BR', 'MX', 'IT', 'ES', 'KR']# add more countries as needed
 selected_country = st.sidebar.selectbox('Select a country', countries)
