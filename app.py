@@ -23,14 +23,20 @@ st.markdown(
              background-image: url("https://images.unsplash.com/photo-1585241645927-c7a8e5840c42?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Nnx8fGVufDB8fHx8&w=1000&q=80");
              background-attachment: fixed;
              background-size: cover;
-             text-color:yellow;
          }}
+         .stApp * {{
+        color: yellow;
+    }}
          </style>
          """,
          unsafe_allow_html=True
      )
+# Toggle sidebar button
+sidebar_expander = st.sidebar.beta_expander("Toggle Sidebar")
+with sidebar_expander:
+    st.sidebar.button("Toggle Sidebar")
 # Choose the country
-countries = ['US', 'GB', 'IN', 'CA', 'AU', 'FR', 'DE', 'JP', 'CN', 'RU', 'BR', 'MX', 'IT', 'ES', 'KR']# add more countries as needed
+countries = ['IN','US', 'GB', 'CA', 'AU', 'FR', 'DE', 'JP', 'CN', 'RU', 'BR', 'MX', 'IT', 'ES', 'KR']# add more countries as needed
 selected_country = st.sidebar.selectbox('Select a country', countries)
 
 # Choose the category
@@ -43,6 +49,7 @@ if selected_category == 'All':
 else:
     news = fetch_news(selected_country, category=selected_category)
 
+      
 
 # Search bar
 search_query = st.text_input("Search for news:")
@@ -52,21 +59,23 @@ if search_query:
 else:
     search_news = {'articles': []} 
 
-# Display the news articles based on the selected category
-for article in news['articles']:
-    st.write('###', article['title'])
-    if article['urlToImage']:
-        st.image(article['urlToImage'], use_column_width=True)
-    st.write(article['url'])
-
-# Display the news articles based on the search query
-if search_query:
-    st.write('## Search Results')
-    for article in search_news['articles']:
+col1, col2, col3 = st.beta_columns(3)
+for i, article in enumerate(news['articles']):
+    with col1 if i % 3 == 0 else col2 if i % 3 == 1 else col3:
         st.write('###', article['title'])
         if article['urlToImage']:
             st.image(article['urlToImage'], use_column_width=True)
         st.write(article['url'])
-        
 
-  
+
+if search_query:
+    if not search_news['articles']:
+        st.write("No results found.")
+    else:
+        st.write('## Search Results')
+        for i, article in enumerate(search_news['articles']):
+            with col1 if i % 3 == 0 else col2 if i % 3 == 1 else col3:
+                st.write('###', article['title'])
+                if article['urlToImage']:
+                    st.image(article['urlToImage'], use_column_width=True)
+                st.write(article['url'])
