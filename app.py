@@ -2,7 +2,6 @@ import streamlit as st
 import requests
 
 NEWS_API_ENDPOINT = 'https://newsapi.org/v2/top-headlines'
-NEWS_API_KEY = '10bf4a47cf6e48069821a23ff15fce50'
 
 def fetch_news(country, category=None, q=None):
     params = {
@@ -75,19 +74,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Sidebar
-st.sidebar.markdown('<div class="sidebar">', unsafe_allow_html=True)
-st.sidebar.markdown('<div class="sidebar-header">Menu</div>', unsafe_allow_html=True)
-menu = st.sidebar.radio("Navigation", ["Home", "Search"])
-if menu == "Search":
-    search_query = st.sidebar.text_input("Search for news:")
-else:
-    search_query = None
-st.sidebar.markdown('<div class="sidebar-nav">', unsafe_allow_html=True)
-st.sidebar.markdown(f'<a href="#" class="sidebar-nav-a">Home</a>', unsafe_allow_html=True)
-st.sidebar.markdown(f'<a href="#" class="sidebar-nav-a">Search</a>', unsafe_allow_html=True)
-st.sidebar.markdown('</div>', unsafe_allow_html=True)
-st.sidebar.markdown('</div>', unsafe_allow_html=True)
 
 # Choose the country
 countries = ['IN','US', 'GB', 'CA', 'AU', 'FR', 'DE', 'JP', 'CN', 'RU', 'BR', 'MX', 'IT', 'ES', 'KR']# add more countries as needed
@@ -104,6 +90,7 @@ else:
     news = fetch_news(selected_country, category=selected_category)
 
 # Fetch the news with search query
+search_query = st.text_input("Search for news:")
 if search_query:
     search_news = fetch_news(selected_country, q=search_query)
 else:
@@ -120,6 +107,7 @@ for i, article in enumerate(news['articles']):
         st.markdown(f'<a href="{article["url"]}" class="article-title" target="_blank">{article["title"]}</a>', unsafe_allow_html=True)
 
 # Display the news articles based on the search query
+
 if search_query:
     if not search_news['articles']:
         st.write("No results found.")
