@@ -49,7 +49,9 @@ st.markdown(
 )
 
 # Toggle sidebar button
-sidebar_expander = st.sidebar.expander("Toggle Sidebar")
+sidebar_expander = st.sidebar.beta_expander("Toggle Sidebar")
+with sidebar_expander:
+    st.sidebar.button("Toggle Sidebar")
 
 # Choose the country
 countries = ['IN','US', 'GB', 'CA', 'AU', 'FR', 'DE', 'JP', 'CN', 'RU', 'BR', 'MX', 'IT', 'ES', 'KR']# add more countries as needed
@@ -77,7 +79,6 @@ col1, col2, col3 = st.columns(3)
 # Display the news articles based on the selected category
 for i, article in enumerate(news['articles']):
     with col1 if i % 3 == 0 else col2 if i % 3 == 1 else col3:
-        st.write('###', article['title'])
         if article['urlToImage']:
             st.markdown(f'<a href="{article["url"]}" class="news-item" target="_blank">', unsafe_allow_html=True)
             st.image(article['urlToImage'], use_column_width=True)
@@ -92,7 +93,6 @@ if search_query:
         st.write('## Search Results')
         for i, article in enumerate(search_news['articles']):
             with col1 if i % 3 == 0 else col2 if i % 3 == 1 else col3:
-                st.write('###', article['title'])
                 if article['urlToImage']:
                     st.markdown(f'<a href="{article["url"]}" class="news-item" target="_blank">', unsafe_allow_html=True)
                     st.image(article['urlToImage'], use_column_width=True)
