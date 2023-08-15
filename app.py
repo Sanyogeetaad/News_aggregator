@@ -79,14 +79,17 @@ else:
     search_news = {'articles': []} 
 
 col1, col2, col3 = st.columns(3)
+# Display the news articles based on the selected category
 for i, article in enumerate(news['articles']):
     with col1 if i % 3 == 0 else col2 if i % 3 == 1 else col3:
         st.write('###', article['title'])
         if article['urlToImage']:
             st.image(article['urlToImage'], use_column_width=True)
+        st.markdown(f'<a href="{article["url"]}" class="news-item" target="_blank">', unsafe_allow_html=True)
         st.write(article['url'])
+        st.markdown('</a>', unsafe_allow_html=True)
 
-
+# Display the news articles based on the search query
 if search_query:
     if not search_news['articles']:
         st.write("No results found.")
@@ -97,4 +100,6 @@ if search_query:
                 st.write('###', article['title'])
                 if article['urlToImage']:
                     st.image(article['urlToImage'], use_column_width=True)
+                st.markdown(f'<a href="{article["url"]}" class="news-item" target="_blank">', unsafe_allow_html=True)
                 st.write(article['url'])
+                st.markdown('</a>', unsafe_allow_html=True)
