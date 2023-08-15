@@ -43,6 +43,9 @@ st.markdown(
         color: #3498db;
         text-decoration: none;
     }}
+    .article-title {{
+        color: blue;
+    }}
     </style>
     """,
     unsafe_allow_html=True
@@ -83,7 +86,7 @@ for i, article in enumerate(news['articles']):
             st.markdown(f'<a href="{article["url"]}" class="news-item" target="_blank">', unsafe_allow_html=True)
             st.image(article['urlToImage'], use_column_width=True)
             st.markdown('</a>', unsafe_allow_html=True)
-        st.write(article['title'])
+        st.markdown(f'<a href="{article["url"]}" class="article-title" target="_blank">{article["title"]}</a>', unsafe_allow_html=True)
 
 # Display the news articles based on the search query
 if search_query:
@@ -97,4 +100,4 @@ if search_query:
                     st.markdown(f'<a href="{article["url"]}" class="news-item" target="_blank">', unsafe_allow_html=True)
                     st.image(article['urlToImage'], use_column_width=True)
                     st.markdown('</a>', unsafe_allow_html=True)
-                st.write(article['title'])
+                st.markdown(f'<a href="{article["url"]}" class="article-title" target="_blank">{article["title"]}</a>', unsafe_allow_html=True)
