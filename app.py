@@ -24,7 +24,8 @@ st.markdown(
              background-attachment: fixed;
              background-size: cover;
          }}
-         .stApp * {{
+         .st-bb {{
+        font-size: 18px;
         color: yellow;
     }}
          </style>
