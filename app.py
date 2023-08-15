@@ -51,11 +51,15 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Toggle sidebar button
-sidebar_expander = st.sidebar.expander("Toggle Sidebar", expanded=False)
-with sidebar_expander:
-    st.sidebar.button("Toggle Sidebar")
-    
+# Add hamburger icon and sidebar toggle
+menu_expander = st.sidebar.beta_expander("Menu", expanded=True)
+with menu_expander:
+    menu = st.radio("Navigation", ["Home", "Search"])
+    if menu == "Search":
+        search_query = st.text_input("Search for news:")
+    else:
+        search_query = None
+
 # Choose the country
 countries = ['IN','US', 'GB', 'CA', 'AU', 'FR', 'DE', 'JP', 'CN', 'RU', 'BR', 'MX', 'IT', 'ES', 'KR']# add more countries as needed
 selected_country = st.sidebar.selectbox('Select a country', countries)
@@ -70,13 +74,11 @@ if selected_category == 'All':
 else:
     news = fetch_news(selected_country, category=selected_category)
 
-# Search bar
-search_query = st.text_input("Search for news:")
 # Fetch the news with search query
 if search_query:
     search_news = fetch_news(selected_country, q=search_query)
 else:
-    search_news = {'articles': []} 
+    search_news = {'articles': []}
 
 col1, col2, col3 = st.columns(3)
 # Display the news articles based on the selected category
