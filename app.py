@@ -67,8 +67,5 @@ if search_query:
             st.image(article['urlToImage'], use_column_width=True)
         st.write(article['url'])
         
-# Display the news articles
-for article in news['articles']:
-    st.write('###', article['title'])
-    st.write(article['url'])
+
   
