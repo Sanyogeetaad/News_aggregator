@@ -19,17 +19,35 @@ st.title('News Aggregator')
 st.markdown(
          f"""
          <style>
-         .stApp {{
-             background-image: url("https://images.unsplash.com/photo-1585241645927-c7a8e5840c42?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Nnx8fGVufDB8fHx8&w=1000&q=80");
-             background-attachment: fixed;
-             background-size: cover;
-         }}
-         .st-bb {{
-        font-size: 18px;
+    .stApp {{
+        background-image: url("https://images.unsplash.com/photo-1585241645927-c7a8e5840c42?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Nnx8fGVufDB8fHx8&w=1000&q=80");
+        background-attachment: fixed;
+        background-size: cover;
+    }}
+    .stApp * {{
         color: yellow;
     }}
-         </style>
-         """,
+    .st-bb {{
+        font-size: 18px;
+        color: #FF5733;
+    }}
+    .news-item {{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 10px 0;
+    }}
+    .news-item img {{
+        max-width: 100px;
+        max-height: 80px;
+        margin-right: 10px;
+    }}
+    .news-item a {{
+        color: #3498db;
+        text-decoration: none;
+    }}
+    </style>
+    """,
          unsafe_allow_html=True
      )
 # Toggle sidebar button
@@ -60,7 +78,7 @@ if search_query:
 else:
     search_news = {'articles': []} 
 
-col1, col2, col3 = st.beta_columns(3)
+col1, col2, col3 = st.columns(3)
 for i, article in enumerate(news['articles']):
     with col1 if i % 3 == 0 else col2 if i % 3 == 1 else col3:
         st.write('###', article['title'])
