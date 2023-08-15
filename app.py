@@ -49,9 +49,7 @@ st.markdown(
 )
 
 # Toggle sidebar button
-sidebar_expander = st.sidebar.beta_expander("Toggle Sidebar")
-with sidebar_expander:
-    st.sidebar.button("Toggle Sidebar")
+sidebar_expander = st.sidebar.expander("Toggle Sidebar")
 
 # Choose the country
 countries = ['IN','US', 'GB', 'CA', 'AU', 'FR', 'DE', 'JP', 'CN', 'RU', 'BR', 'MX', 'IT', 'ES', 'KR']# add more countries as needed
@@ -81,12 +79,10 @@ for i, article in enumerate(news['articles']):
     with col1 if i % 3 == 0 else col2 if i % 3 == 1 else col3:
         st.write('###', article['title'])
         if article['urlToImage']:
+            st.markdown(f'<a href="{article["url"]}" class="news-item" target="_blank">', unsafe_allow_html=True)
             st.image(article['urlToImage'], use_column_width=True)
-        st.markdown(f'<a href="{article["url"]}" class="news-item" target="_blank">', unsafe_allow_html=True)
+            st.markdown('</a>', unsafe_allow_html=True)
         st.write(article['title'])
-        st.image(article['urlToImage'], use_column_width=True)
-        st.write(article['url'])
-        st.markdown('</a>', unsafe_allow_html=True)
 
 # Display the news articles based on the search query
 if search_query:
@@ -98,9 +94,7 @@ if search_query:
             with col1 if i % 3 == 0 else col2 if i % 3 == 1 else col3:
                 st.write('###', article['title'])
                 if article['urlToImage']:
+                    st.markdown(f'<a href="{article["url"]}" class="news-item" target="_blank">', unsafe_allow_html=True)
                     st.image(article['urlToImage'], use_column_width=True)
-                st.markdown(f'<a href="{article["url"]}" class="news-item" target="_blank">', unsafe_allow_html=True)
+                    st.markdown('</a>', unsafe_allow_html=True)
                 st.write(article['title'])
-                st.image(article['urlToImage'], use_column_width=True)
-                st.write(article['url'])
-                st.markdown('</a>', unsafe_allow_html=True)
