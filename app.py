@@ -23,7 +23,7 @@ st.markdown(
              background-image: url("https://images.unsplash.com/photo-1585241645927-c7a8e5840c42?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Nnx8fGVufDB8fHx8&w=1000&q=80");
              background-attachment: fixed;
              background-size: cover;
-             color:yellow;
+             text-color:yellow;
          }}
          </style>
          """,
