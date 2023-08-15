@@ -46,19 +46,48 @@ st.markdown(
     .article-title {{
         color: blue;
     }}
+    .sidebar {{
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }}
+    .sidebar-header {{
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }}
+    .sidebar-nav {{
+        margin-top: 20px;
+    }}
+    .sidebar-nav a {{
+        display: block;
+        padding: 10px 0;
+        color: #343a40;
+        text-decoration: none;
+    }}
+    .sidebar-nav a:hover {{
+        background-color: #f0f3f5;
+        border-radius: 5px;
+    }}
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# Add hamburger icon and sidebar toggle
-menu_expander = st.sidebar.beta_expander("Menu", expanded=True)
-with menu_expander:
-    menu = st.radio("Navigation", ["Home", "Search"])
-    if menu == "Search":
-        search_query = st.text_input("Search for news:")
-    else:
-        search_query = None
+# Sidebar
+st.sidebar.markdown('<div class="sidebar">', unsafe_allow_html=True)
+st.sidebar.markdown('<div class="sidebar-header">Menu</div>', unsafe_allow_html=True)
+menu = st.sidebar.radio("Navigation", ["Home", "Search"])
+if menu == "Search":
+    search_query = st.sidebar.text_input("Search for news:")
+else:
+    search_query = None
+st.sidebar.markdown('<div class="sidebar-nav">', unsafe_allow_html=True)
+st.sidebar.markdown(f'<a href="#" class="sidebar-nav-a">Home</a>', unsafe_allow_html=True)
+st.sidebar.markdown(f'<a href="#" class="sidebar-nav-a">Search</a>', unsafe_allow_html=True)
+st.sidebar.markdown('</div>', unsafe_allow_html=True)
+st.sidebar.markdown('</div>', unsafe_allow_html=True)
 
 # Choose the country
 countries = ['IN','US', 'GB', 'CA', 'AU', 'FR', 'DE', 'JP', 'CN', 'RU', 'BR', 'MX', 'IT', 'ES', 'KR']# add more countries as needed
