@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 
 NEWS_API_ENDPOINT = 'https://newsapi.org/v2/top-headlines'
+NEWS_API_KEY = st.secrets["NEWS_API_KEY"]
 
 def fetch_news(country, category=None, q=None):
     params = {
@@ -14,7 +15,7 @@ def fetch_news(country, category=None, q=None):
     response = requests.get(NEWS_API_ENDPOINT, params=params)
     return response.json()
 
-st.set_page_config(page_title='News Aggregator')
+st.set_page_config(page_title='News Aggregator', layout='wide')
 st.title('News Aggregator')
 st.markdown(
     f"""
@@ -57,7 +58,14 @@ st.markdown(
         margin-bottom: 20px;
     }}
     .sidebar-nav {{
-        margin-top: 20px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-top: 10px;
+    }}
+    .sidebar-nav input[type="text"] {{
+        margin-right: 10px;
+        padding: 6px 8px;
     }}
     .sidebar-nav a {{
         display: block;
@@ -74,14 +82,15 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# Choose the country and category inside the sidebar
+with st.sidebar:
+    st.subheader("Select Options")
+    selected_country = st.selectbox('Select a country', ['IN','US', 'GB', 'CA', 'AU', 'FR', 'DE', 'JP', 'CN', 'RU', 'BR', 'MX', 'IT', 'ES', 'KR'])
+    selected_category = st.selectbox('Select a category (optional)', ['All','Business', 'Entertainment', 'General', 'Health', 'Science', 'Sports', 'Technology'])
 
-# Choose the country
-countries = ['IN','US', 'GB', 'CA', 'AU', 'FR', 'DE', 'JP', 'CN', 'RU', 'BR', 'MX', 'IT', 'ES', 'KR']# add more countries as needed
-selected_country = st.sidebar.selectbox('Select a country', countries)
-
-# Choose the category
-categories = ['All','Business', 'Entertainment', 'General', 'Health', 'Science', 'Sports', 'Technology']
-selected_category = st.sidebar.selectbox('Select a category (optional)', categories)
+# Combine search input in the same line
+col1, col2 = st.columns([4, 1])
+search_query = col1.text_input(placeholder="Enter a keyword and press Enter to search", label=" ", value="")
 
 # Fetch the news
 if selected_category == 'All':
@@ -90,33 +99,21 @@ else:
     news = fetch_news(selected_country, category=selected_category)
 
 # Fetch the news with search query
-search_query = st.text_input("Search for news:")
+search_news_result = {'articles': []}
 if search_query:
-    search_news = fetch_news(selected_country, q=search_query)
-else:
-    search_news = {'articles': []}
+    search_news_result = fetch_news(selected_country, q=search_query)
 
 col1, col2, col3 = st.columns(3)
-# Display the news articles based on the selected category
-for i, article in enumerate(news['articles']):
-    with col1 if i % 3 == 0 else col2 if i % 3 == 1 else col3:
-        if article['urlToImage']:
-            st.markdown(f'<a href="{article["url"]}" class="news-item" target="_blank">', unsafe_allow_html=True)
-            st.image(article['urlToImage'], use_column_width=True)
-            st.markdown('</a>', unsafe_allow_html=True)
-        st.markdown(f'<a href="{article["url"]}" class="article-title" target="_blank">{article["title"]}</a>', unsafe_allow_html=True)
-
-# Display the news articles based on the search query
-
-if search_query:
-    if not search_news['articles']:
-        st.write("No results found.")
-    else:
-        st.write('## Search Results')
-        for i, article in enumerate(search_news['articles']):
-            with col1 if i % 3 == 0 else col2 if i % 3 == 1 else col3:
-                if article['urlToImage']:
-                    st.markdown(f'<a href="{article["url"]}" class="news-item" target="_blank">', unsafe_allow_html=True)
-                    st.image(article['urlToImage'], use_column_width=True)
-                    st.markdown('</a>', unsafe_allow_html=True)
-                st.markdown(f'<a href="{article["url"]}" class="article-title" target="_blank">{article["title"]}</a>', unsafe_allow_html=True)
+# Display the news articles based on the selected category or search query
+if search_news_result.get('articles') or not search_query:
+    display_news = search_news_result.get('articles', []) if search_query else news.get('articles', [])
+    for i, article in enumerate(display_news):
+        with col1 if i % 3 == 0 else col2 if i % 3 == 1 else col3:
+            if article['urlToImage']:
+                st.markdown(f'<a href="{article["url"]}" class="news-item" target="_blank">', unsafe_allow_html=True)
+                st.image(article['urlToImage'], use_column_width=True)
+                st.markdown('</a>', unsafe_allow_html=True)
+            st.markdown(f'<a href="{article["url"]}" class="article-title" target="_blank" style="text-decoration: none;">{article["title"]}</a>', unsafe_allow_html=True)
+            st.markdown('<div style="margin-top: 10px;"></div>', unsafe_allow_html=True)
+else:
+    st.write("No results found.")
